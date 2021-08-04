@@ -1,0 +1,22 @@
+[package]
+name = "pyftml"
+version = "0.1.0"
+authors = ["MrNereof <mrnereof@gmail.com>"]
+edition = "2018"
+description="Python bindings for ftml"
+license = "MIT"
+keywords = ["ftml", "scp", "wikidot"]
+readme = "README.md"
+repository = "https://github.com/skippy-dev/pyftml"
+
+[lib]
+name = "pyftml"
+crate-type = ["cdylib"]
+
+[dependencies]
+ftml = "0.10"
+slog = {version = "2.7.0", features = ["max_level_trace", "release_max_level_warn"]}
+
+[dependencies.pyo3]
+version = "0.14.1"
+features = ["extension-module"]
