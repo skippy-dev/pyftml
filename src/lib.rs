@@ -15,7 +15,6 @@ use std::borrow::Cow::Borrowed;
 
 fn render<R: Render>(
     text: &mut String,
-    page_info: PageInfo,
     renderer: &R) -> R::Output
 {
     let drain = slog::Discard;
@@ -26,7 +25,7 @@ fn render<R: Render>(
     crate::preprocess(&log, text);
     let tokens = crate::tokenize(&log, &text);
     let (tree, _warnings) = crate::parse(&log, &tokens).into();
-    let output = renderer.render(&log, &page_info, &tree);
+    let output = renderer.render(&log, &page_info_dummy(), &tree);
     output
 }
 
@@ -50,7 +49,7 @@ fn page_info_dummy() -> PageInfo<'static>
 fn render_html(
     source: &str) -> PyResult<HashMap<String, String>>
 {
-    let html_output = render(&mut source.to_string(), page_info_dummy(), &HtmlRender);
+    let html_output = render(&mut source.to_string(), &HtmlRender);
 
     let mut output = HashMap::new();
     output.insert(String::from("body"), html_output.html);
@@ -64,7 +63,7 @@ fn render_html(
 fn render_text(
     source: &str) -> PyResult<String> 
 {
-    Ok(render(&mut source.to_string(), page_info_dummy(), &TextRender))
+    Ok(render(&mut source.to_string(), &TextRender))
 }
 
 
