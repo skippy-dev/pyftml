@@ -15,7 +15,10 @@ crate-type = ["cdylib"]
 
 [dependencies]
 ftml = "0.10"
-slog = {version = "2.7.0", features = ["max_level_trace", "release_max_level_warn"]}
+
+[dependencies.slog]
+version = "2.7.0"
+features = ["max_level_trace", "release_max_level_warn"]
 
 [dependencies.pyo3]
 version = "0.14.1"
