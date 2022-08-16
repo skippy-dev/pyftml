@@ -18,11 +18,13 @@ fn render<R: Render>(
     let drain = slog::Discard;
 
     // TODO includer
+    let page_info = page_info_dummy();
+    let settings = WikitextSettings::from_mode(WikitextMode.Page);
 
     crate::preprocess(text);
     let tokens = crate::tokenize(&text);
-    let (tree, _warnings) = crate::parse(&tokens).into();
-    let output = renderer.render(&page_info_dummy(), &tree, WikitextSettings::from_mode(WikitextMode.Page));
+    let (tree, _warnings) = crate::parse(&tokens, &page_info, &settings).into();
+    let output = renderer.render(&page_info, &tree, &settings);
     output
 }
 
