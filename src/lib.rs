@@ -18,14 +18,13 @@ fn render<R: Render>(
     renderer: &R) -> R::Output
 {
     let drain = slog::Discard;
-    let log = slog::Logger::root(drain, o!());
 
     // TODO includer
 
-    crate::preprocess(&log, text);
-    let tokens = crate::tokenize(&log, &text);
-    let (tree, _warnings) = crate::parse(&log, &tokens).into();
-    let output = renderer.render(&log, &page_info_dummy(), &tree);
+    crate::preprocess(text);
+    let tokens = crate::tokenize(&text);
+    let (tree, _warnings) = crate::parse(&tokens).into();
+    let output = renderer.render(&page_info_dummy(), &tree);
     output
 }
 
@@ -40,7 +39,7 @@ fn page_info_dummy() -> PageInfo<'static>
             alt_title: None,
             rating: 0.0,
             tags: vec![],
-            locale: Borrowed("")
+            language: Borrowed("default")
         }
 }
 
@@ -52,8 +51,8 @@ fn render_html(
     let html_output = render(&mut source.to_string(), &HtmlRender);
 
     let mut output = HashMap::new();
-    output.insert(String::from("body"), html_output.html);
-    output.insert(String::from("style"), html_output.style);
+    output.insert(String::from("body"), html_output.body);
+    output.insert(String::from("style"), html_output.styles);
 
     Ok(output)
 }
