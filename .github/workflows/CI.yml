@@ -26,7 +26,7 @@ jobs:
           args: --release --out dist -m Cargo.toml
       - name: Install built wheel - x86_64
         run: |
-          pip install pyftml --no-index --find-links dist --force-reinstall
+          pip install dist/* --no-index --find-links dist --force-reinstall
           python -c "import pyftml"
       - name: Build wheels - universal2
         uses: messense/maturin-action@v1
@@ -34,7 +34,7 @@ jobs:
           args: --release --universal2 --out dist -m Cargo.toml
       - name: Install built wheel - universal2
         run: |
-          pip install pyftml --no-index --find-links dist --force-reinstall
+          pip install dist/* --no-index --find-links dist --force-reinstall
           python -c "import pyftml"
       - name: Upload wheels
         uses: actions/upload-artifact@v2
@@ -66,7 +66,7 @@ jobs:
           args: --release --out dist -m Cargo.toml
       - name: Install built wheel
         run: |
-          pip install pyftml --no-index --find-links dist --force-reinstall
+          pip install dist/* --no-index --find-links dist --force-reinstall
           python -c "import pyftml"
       - name: Upload wheels
         uses: actions/upload-artifact@v2
@@ -94,7 +94,7 @@ jobs:
     - name: Install built wheel
       if: matrix.target == 'x86_64'
       run: |
-        pip install pyftml --no-index --find-links dist --force-reinstall
+        pip install dist/* --no-index --find-links dist --force-reinstall
         python -c "import pyftml"
     - name: Upload wheels
       uses: actions/upload-artifact@v2
@@ -134,7 +134,7 @@ jobs:
           pip3 install -U pip
         run: |
           ls -lrth /artifacts
-          pip3 install pyftml --no-index --find-links /artifacts --force-reinstall
+          pip3 install dist/* --no-index --find-links /artifacts --force-reinstall
           python3 -c "import pyftml"
     - name: Upload wheels
       uses: actions/upload-artifact@v2
