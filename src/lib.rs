@@ -19,12 +19,12 @@ fn render<R: Render>(
 
     // TODO includer
     let page_info = page_info_dummy();
-    let settings = WikitextSettings::from_mode(WikitextMode.Page);
+    let settings = WikitextSettings::from_mode(WikitextMode::Page);
 
     crate::preprocess(text);
     let tokens = crate::tokenize(&text);
     let (tree, _warnings) = crate::parse(&tokens, &page_info, &settings).into();
-    let output = renderer.render(&page_info, &tree, &settings);
+    let output = renderer.render(&tree, &page_info, &settings);
     output
 }
 
