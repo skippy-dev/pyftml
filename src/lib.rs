@@ -1,11 +1,9 @@
-#[macro_use]
-extern crate slog;
-
 use ftml::prelude::*;
 use ftml::info::VERSION;
 use ftml::render::html::HtmlRender;
 use ftml::render::text::TextRender;
 use ftml::render::Render;
+use ftml::settings::*;
 
 use pyo3::prelude::*;
 
@@ -24,7 +22,7 @@ fn render<R: Render>(
     crate::preprocess(text);
     let tokens = crate::tokenize(&text);
     let (tree, _warnings) = crate::parse(&tokens).into();
-    let output = renderer.render(&page_info_dummy(), &tree);
+    let output = renderer.render(&page_info_dummy(), &tree, WikitextSettings::from_mode(WikitextMode.Page));
     output
 }
 
@@ -52,7 +50,7 @@ fn render_html(
 
     let mut output = HashMap::new();
     output.insert(String::from("body"), html_output.body);
-    output.insert(String::from("style"), html_output.styles);
+    output.insert(String::from("style"), html_output.styles.join("\n"));
 
     Ok(output)
 }
