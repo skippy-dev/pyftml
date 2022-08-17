@@ -3,7 +3,6 @@ use ftml::info::VERSION;
 use ftml::render::html::HtmlRender;
 use ftml::render::text::TextRender;
 use ftml::render::Render;
-use ftml::settings::*;
 
 use pyo3::prelude::*;
 
@@ -15,9 +14,6 @@ fn render<R: Render>(
     text: &mut String,
     renderer: &R) -> R::Output
 {
-    let drain = slog::Discard;
-
-    // TODO includer
     let page_info = page_info_dummy();
     let settings = WikitextSettings::from_mode(WikitextMode::Page);
 
